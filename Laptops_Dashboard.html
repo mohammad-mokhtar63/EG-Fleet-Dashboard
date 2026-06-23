@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Laptops Dashboard — EG</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0f1117;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+  header{background:#1a1d2e;border-bottom:1px solid #2d3748;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+  header h1{font-size:1.4rem;font-weight:700;color:#a78bfa}
+  header .ts{font-size:0.8rem;color:#6b7280}
+  .tabs{display:flex;gap:0.5rem;padding:1rem 2rem 0;background:#1a1d2e;border-bottom:1px solid #2d3748}
+  .tab{padding:0.6rem 1.4rem;border-radius:6px 6px 0 0;cursor:pointer;font-size:0.9rem;font-weight:600;color:#9ca3af;background:#0f1117;border:1px solid #2d3748;border-bottom:none;transition:all .2s}
+  .tab.active{background:#1e2235;color:#a78bfa;border-color:#7c3aed}
+  .tab-content{display:none;padding:2rem}
+  .tab-content.active{display:block}
+  .section h2{font-size:1.2rem;font-weight:700;color:#e2e8f0;margin-bottom:1rem}
+  .section h3{font-size:1rem;font-weight:600;color:#94a3b8}
+  .kpi-row{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+  .kpi-card{background:#1e2235;border:1px solid #2d3748;border-radius:10px;padding:1.2rem 1.6rem;min-width:130px;text-align:center}
+  .kpi-val{font-size:2rem;font-weight:800;line-height:1}
+  .kpi-label{font-size:0.8rem;color:#9ca3af;margin-top:0.3rem}
+  .kpi-pct{font-size:0.75rem;color:#4b5563;margin-top:0.2rem}
+  .charts-row{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem}
+  .chart-block{background:#1e2235;border:1px solid #2d3748;border-radius:10px;padding:1.2rem 1.6rem;min-width:280px}
+  .chart-title{font-size:0.85rem;font-weight:600;color:#94a3b8;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.05em}
+  .bar-row{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem}
+  .bar-label{width:160px;font-size:0.8rem;color:#cbd5e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar-wrap{width:280px;height:16px;background:#2d3748;border-radius:4px;overflow:hidden}
+  .bar{height:100%;border-radius:4px}
+  .bar-cnt{font-size:0.8rem;color:#94a3b8;white-space:nowrap}
+  .bar-pct{color:#4b5563}
+  .tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid #2d3748}
+  table{width:100%;border-collapse:collapse;font-size:0.82rem}
+  thead{background:#1a1d2e}
+  th{padding:0.7rem 1rem;text-align:left;color:#94a3b8;font-weight:600;border-bottom:1px solid #2d3748;white-space:nowrap}
+  td{padding:0.6rem 1rem;border-bottom:1px solid #1e2235;color:#cbd5e1;white-space:nowrap}
+  tr:hover td{background:#1e2235}
+  .key-badge{background:#2e1065;color:#a78bfa;padding:0.15rem 0.5rem;border-radius:4px;font-family:monospace;font-size:0.8rem}
+  .status-badge{padding:0.15rem 0.55rem;border-radius:999px;font-size:0.75rem;font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <h1>💻 Laptops Fleet Dashboard — EG</h1>
+  <span class="ts">Last updated: 2026-06-21 16:05</span>
+</header>
+<div class="tabs">
+  <div class="tab active" onclick="showTab('all',this)">All</div>
+  <div class="tab" onclick="showTab('eg1',this)">EG1</div>
+  <div class="tab" onclick="showTab('eg2',this)">EG2</div>
+</div>
+<div id="tab-all" class="tab-content active">
+    <div class="section">
+        <h2>All Buildings — 67 laptops</h2>
+        <div class="kpi-row"><div class="kpi-card">
+            <div class="kpi-val" style="color:#60a5fa">67</div>
+            <div class="kpi-label">Total</div>
+            <div class="kpi-pct">100%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#4ade80">53</div>
+            <div class="kpi-label">In Use</div>
+            <div class="kpi-pct">79%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#a78bfa">6</div>
+            <div class="kpi-label">Warehouse</div>
+            <div class="kpi-pct">9%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#f87171">5</div>
+            <div class="kpi-label">Broken</div>
+            <div class="kpi-pct">7%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#f43f5e">2</div>
+            <div class="kpi-label">Lost</div>
+            <div class="kpi-pct">3%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#6b7280">0</div>
+            <div class="kpi-label">Disposed</div>
+            <div class="kpi-pct">0%</div>
+        </div></div>
+        <div class="charts-row">
+            <div class="chart-block"><div class="chart-title">Device Status</div><div class="bar-row">
+            <div class="bar-label">In Use</div>
+            <div class="bar-wrap"><div class="bar" style="width:221px;background:#4ade80"></div></div>
+            <div class="bar-cnt">53 <span class="bar-pct">(79.1%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Warehouse</div>
+            <div class="bar-wrap"><div class="bar" style="width:25px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">6 <span class="bar-pct">(9.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Broken</div>
+            <div class="bar-wrap"><div class="bar" style="width:20px;background:#f87171"></div></div>
+            <div class="bar-cnt">5 <span class="bar-pct">(7.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Lost</div>
+            <div class="bar-wrap"><div class="bar" style="width:8px;background:#f43f5e"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(3.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">In Service</div>
+            <div class="bar-wrap"><div class="bar" style="width:4px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(1.5%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">Manufacturer</div><div class="bar-row">
+            <div class="bar-label">Lenovo</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">34 <span class="bar-pct">(50.7%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Dell</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">17 <span class="bar-pct">(25.4%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Apple</div>
+            <div class="bar-wrap"><div class="bar" style="width:115px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">14 <span class="bar-pct">(20.9%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">MacBook Air</div>
+            <div class="bar-wrap"><div class="bar" style="width:8px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(1.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">DRP</div>
+            <div class="bar-wrap"><div class="bar" style="width:8px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(1.5%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">Warranty Health</div><div class="bar-row">
+            <div class="bar-label">Expired</div>
+            <div class="bar-wrap"><div class="bar" style="width:259px;background:#f43f5e"></div></div>
+            <div class="bar-cnt">62 <span class="bar-pct">(92.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Expiring soon (&lt;6mo)</div>
+            <div class="bar-wrap"><div class="bar" style="width:4px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(1.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Valid</div>
+            <div class="bar-wrap"><div class="bar" style="width:8px;background:#4ade80"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(3.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Unknown</div>
+            <div class="bar-wrap"><div class="bar" style="width:8px;background:#6b7280"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(3.0%)</span></div>
+        </div></div>
+        </div>
+        <div class="charts-row">
+            <div class="chart-block"><div class="chart-title">Models</div><div class="bar-row">
+            <div class="bar-label">E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">6 <span class="bar-pct">(21.4%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</div>
+            <div class="bar-wrap"><div class="bar" style="width:233px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">5 <span class="bar-pct">(17.9%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">ThinkBook 15 G2 Laptop - IntelÂ® Coreâ„¢ i5-1135G7</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">3 <span class="bar-pct">(10.7%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Vostro 3500</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">3 <span class="bar-pct">(10.7%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Lenovo E15 G4/intel Core i5-1235U-500 SSD / 8 GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:93px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(7.1%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">E15 Gen 4 (type 21E6 21E7) Laptops (ThinkPad) - Type 21E6</div>
+            <div class="bar-wrap"><div class="bar" style="width:93px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(7.1%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Thinkpad e15/ IntelÂ® Coreâ„¢ i5-1135G7/8 GB/256GBPCI</div>
+            <div class="bar-wrap"><div class="bar" style="width:93px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(7.1%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">latitude 3520/ Intel Core i5-1135G7/1TB / 8GRam</div>
+            <div class="bar-wrap"><div class="bar" style="width:93px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(7.1%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Thinkbook 15 G2 ITL</div>
+            <div class="bar-wrap"><div class="bar" style="width:93px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(7.1%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">MacBook Air 13” M1</div>
+            <div class="bar-wrap"><div class="bar" style="width:46px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(3.6%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">RAM (GB)</div><div class="bar-row">
+            <div class="bar-label">16 GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:35px;background:#34d399"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(6.2%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">16GB GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:35px;background:#34d399"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(6.2%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">8 GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:210px;background:#34d399"></div></div>
+            <div class="bar-cnt">6 <span class="bar-pct">(37.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">8 GB GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#34d399"></div></div>
+            <div class="bar-cnt">8 <span class="bar-pct">(50.0%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">CPU</div><div class="bar-row">
+            <div class="bar-label">—</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">62 <span class="bar-pct">(92.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">M1 8C CPU, 7C GPU</div>
+            <div class="bar-wrap"><div class="bar" style="width:4px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(1.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">check the comment</div>
+            <div class="bar-wrap"><div class="bar" style="width:4px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(1.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">1.6 GHZ Dual core intel i5</div>
+            <div class="bar-wrap"><div class="bar" style="width:4px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(1.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">i5-13420H-512 GB SSD</div>
+            <div class="bar-wrap"><div class="bar" style="width:4px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(1.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">M1</div>
+            <div class="bar-wrap"><div class="bar" style="width:4px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(1.5%)</span></div>
+        </div></div>
+        </div>
+        <h3 style="margin-top:2rem">Asset List <span style="color:#6b7280;font-size:0.85rem">(top 100 shown)</span></h3>
+        <div class="tbl-wrap"><table>
+    <thead><tr>
+        <th>Key</th><th>Inventory</th><th>Manufacturer</th><th>Model</th>
+        <th>CPU</th><th>RAM</th><th>Owner</th><th>Seat</th><th>Status</th><th>Warranty</th>
+    </tr></thead><tbody><tr>
+            <td><span class="key-badge">AMR-9857</span></td>
+            <td>C-02875DY</td>
+            <td>Apple</td>
+            <td>MacBook Air 13” M1</td>
+            <td style="font-size:0.75rem;color:#94a3b8">M1 8C CPU, 7C GPU</td>
+            <td>8 GB</td>
+            <td>Help Desk (helpdesk@dyninno.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">22/Feb/2024, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29215</span></td>
+            <td>L-00001</td>
+            <td>Dell</td>
+            <td>Latitude 3520 Intel(R) Core(TM) i5-1135G7/ 256 SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mohamed Mokhtar Amer Amer (mohamed.mokhtar)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Sep/2022, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29266</span></td>
+            <td>L-00002</td>
+            <td>Lenovo</td>
+            <td>Lenovo E15 G4/intel Core i5-1235U-500 SSD / 16GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mariam Ahmed Eltaib (m.eltaib)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">05/Apr/2024, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29211</span></td>
+            <td>L-00003-EG</td>
+            <td>Dell</td>
+            <td>Latitude 3410 i5-10210U CPU @ 1.60GHz 2.11 G</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Eslam Osama Abdelnabi Ahmed (eo1255)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">23/Jul/2022, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-53555</span></td>
+            <td>L-000030-EG1</td>
+            <td>Lenovo</td>
+            <td>Lenovo Idealpad slim 3</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Kareem Rabie Sayed Rabie (kr1644)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#fbbf24;font-size:0.78rem">02/Oct/2026, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29273</span></td>
+            <td>L-00004</td>
+            <td>Lenovo</td>
+            <td>ThinkPad-E15 G4 IntelÂ® Coreâ„¢ i5-1235U/8 GB /512SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Ahmed Mohamed (a.el-tayeb)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f43f5e22;color:#f43f5e;border:1px solid #f43f5e55">Lost</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">05/Apr/2024, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29450</span></td>
+            <td>L-00005-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1)</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Enas Samir Elhady Mohamed Hassan (e.hady)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">09/Jan/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29208</span></td>
+            <td>L-00006</td>
+            <td>Dell</td>
+            <td>Vostro 3510/intel core i5 1135G7/1000 GB HD/ 8 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Safy Mahmoud Abdelmoamen Elsayed Gadallah (sa217)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Dec/2022, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29281</span></td>
+            <td>L-00007</td>
+            <td>Lenovo</td>
+            <td>Lenovo E15 G4/intel Core i5-1235U-500 SSD / 8 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mohamed Abdelhady Hafez Abdellatif (mh1943)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#6b7280;font-size:0.78rem">—</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29282</span></td>
+            <td>L-00008</td>
+            <td>Dell</td>
+            <td>Dell latitude 3420/IntelÂ® Core i5-1135G7/ 1TB / 8G</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Dina Atef Mahmoud Awad Ahmed (da149)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">03/Jun/2025, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29241</span></td>
+            <td>L-00009-EG1</td>
+            <td>Lenovo</td>
+            <td>ThinkPad i5 G2/IntelÂ® Coreâ„¢ i5-1135G7/8 GB/500GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Nawara Abdullah Farag Abdelgelil (nf292)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Sep/2022, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29271</span></td>
+            <td>L-00011</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Khaled Mohamed Farouk Eltahan (k.eltahan)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">09/Jan/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29214</span></td>
+            <td>L-00012</td>
+            <td>Dell</td>
+            <td>Latitude 3520 Laptop - Intel® Core™ i5-1135G7 - 8GB - 1TB - Intel Iris Graphics - 15.6" HD - Grey</td>
+            <td style="font-size:0.75rem;color:#94a3b8">check the comment</td>
+            <td>— GB</td>
+            <td>—</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Sep/2022, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29267</span></td>
+            <td>L-00013</td>
+            <td>Lenovo</td>
+            <td>ThinkPad-E15 G4 IntelÂ®Coreâ„¢ i5-1235U/8GB/512G SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Saad Mabrouk (s.mabrouk)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">23/Jul/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-41843</span></td>
+            <td>L-00014- DRP</td>
+            <td>Lenovo</td>
+            <td>E15 Gen 4 (type 21E6 21E7) Laptops (ThinkPad) - Type 21E6</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB</td>
+            <td>Hana Momtaz (h.momtaz)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">23/Jul/2023, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29254</span></td>
+            <td>L-00015</td>
+            <td>Lenovo</td>
+            <td>Thinkpad e15/ IntelÂ® Coreâ„¢ i5-1135G7/8 GB/256GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Osama Essam Eldin Abdelfattah Mohamed Elmogy (o.essam)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">05/Apr/2023, Wed 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29283</span></td>
+            <td>L-00016</td>
+            <td>Lenovo</td>
+            <td>Thinkpad e15/ IntelÂ® Coreâ„¢ i5-1135G7/8 GB/256GBPCI</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Rana Ahmed Mokhtar Amin (r.mukhtar)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">23/Jul/2023, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29270</span></td>
+            <td>L-00017-EG2</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Nahed Ali Gamal El-faransawy (n.elfaransawy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Aug/2022, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29249</span></td>
+            <td>L-00018</td>
+            <td>Lenovo</td>
+            <td>Thinkpad e15/ IntelÂ® Coreâ„¢ i5-1135G7/8 GB/256GBPCI</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Shady Emad Aiad Khila (s.emad)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">05/Apr/2024, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29240</span></td>
+            <td>L-00019-EG1</td>
+            <td>MacBook Air</td>
+            <td>MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Caroline Nabil Adly Besada (ca120)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29280</span></td>
+            <td>L-00020-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Kareem Rabie Sayed Rabie (kr1644)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Mar/2024, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29233</span></td>
+            <td>L-00021-EG1</td>
+            <td>Apple</td>
+            <td>MacBook PRO</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Youssef Hamdy Mahmoud Ali Mansour (y.hamdy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Jul/2024, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29232</span></td>
+            <td>L-00022-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Nour Wagdy Ibrahim Mohamed Almeniawy (n.wagdy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">15/Sep/2023, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29242</span></td>
+            <td>L-00024</td>
+            <td>Dell</td>
+            <td>Latitude 3420 Intel Core i5-1135G7 / 1TB HDD / 8GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Tarek Shabaan Aly Farag (t.aly)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Nov/2023, Wed 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29275</span></td>
+            <td>L-00026</td>
+            <td>Apple</td>
+            <td>MacBook Air 2018</td>
+            <td style="font-size:0.75rem;color:#94a3b8">1.6 GHZ Dual core intel i5</td>
+            <td>8 GB GB</td>
+            <td>Hatem Ahmed (h.salama)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f43f5e22;color:#f43f5e;border:1px solid #f43f5e55">Lost</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">16/Jul/2020, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29265</span></td>
+            <td>L-00027</td>
+            <td>Lenovo</td>
+            <td>ThinkPad E15 G4/Intel Core i5-1235U/8GB/512 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Youssef Farag Zaki Nakhla (kepler.z)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f8717122;color:#f87171;border:1px solid #f8717155">Broken</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29277</span></td>
+            <td>L-00028</td>
+            <td>Lenovo</td>
+            <td>Lenovo E15 G4/intel Core i5-1235U-500 SSD / 8 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Youssef Farag Zaki Nakhla (kepler.z)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/May/2024, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29452</span></td>
+            <td>L-00029</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G2</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Ahmed Mohsen Wahba Hassan Mohamed (socrates.m@asaptickets.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">02/Feb/2023, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29268</span></td>
+            <td>L-00030</td>
+            <td>Dell</td>
+            <td>latitude 3420/IntelÂ® Coreâ„¢ i5-1135G7 /8G/1TB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Saged Mohamed Shawky Ragheb (s.mohamed)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">03/Jun/2025, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29453</span></td>
+            <td>L-00031</td>
+            <td>Lenovo</td>
+            <td>ThinkPad</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB</td>
+            <td>Amira Mansour Abdulmenim Mansour Fares (nairobi.m@asaptickets.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">05/Jan/2022, Wed 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29225</span></td>
+            <td>L-00032-EG1</td>
+            <td>Dell</td>
+            <td>latitude 3520/ Intel Core i5-1135G7/1TB / 8GRam</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Amr Taha Younes Taha (a.taha)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">09/Jan/2022, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29227</span></td>
+            <td>L-00033-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Pro M1</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mayar Ahmed Ibrahim Emam Tantawy (ma228)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">18/Sep/2022, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29226</span></td>
+            <td>L-00034</td>
+            <td>Dell</td>
+            <td>Latitude 3520 Intel(R) Core(TM) i5-1135G7 / 1TB /</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Help Desk (helpdesk@dyninno.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Sep/2022, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29255</span></td>
+            <td>L-00035</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Orchidia Almashaly (o.elmashaly)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29261</span></td>
+            <td>L-00036</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB 512 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Nadine Hassanein (na143)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29269</span></td>
+            <td>L-00037</td>
+            <td>Lenovo</td>
+            <td>E15 G4/ IntelÂ® Coreâ„¢ i5-1235U / 8 GB /512 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mariam Hanna (m.morris)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29256</span></td>
+            <td>L-00038</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Alaa Abdullah (a.atef)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29257</span></td>
+            <td>L-00039</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mai Hanafy (m.hanafy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29262</span></td>
+            <td>L-00040</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Somaia Haggag (s.haggag)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29259</span></td>
+            <td>L-00041-DRP</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mariam Hassan (m.hassan)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29247</span></td>
+            <td>L-00042-DRP</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G2 Laptop - IntelÂ® Coreâ„¢ i5-1135G7</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Aya Abdelaziz (a.abdelaziz)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-44021</span></td>
+            <td>L-00043</td>
+            <td>Lenovo</td>
+            <td>IdeaPad Slim 3 15IRH8 - Type 83EM</td>
+            <td style="font-size:0.75rem;color:#94a3b8">i5-13420H-512 GB SSD</td>
+            <td>16 GB</td>
+            <td>Abdelrahman Mohamed Farouk AbdelHady (a.farouk)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#4ade80;font-size:0.78rem">28/Mar/2027, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29272</span></td>
+            <td>L-00044</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G2 Laptop - IntelÂ® Coreâ„¢ i5-1135G7</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Caroline Nabil Adly Besada (ca120)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f8717122;color:#f87171;border:1px solid #f8717155">Broken</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2023, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-47272</span></td>
+            <td>L-00050-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Air 13.6'' 2022 - M2 chip</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Mai Hanafy (m.hanafy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">14/May/2026, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-47312</span></td>
+            <td>L-00051</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1, 2018)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mai Hanafy (m.hanafy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#fbbf2422;color:#fbbf24;border:1px solid #fbbf2455">In Service</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">15/Apr/2019, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29263</span></td>
+            <td>L-00074</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Yosra Abedelwahab (y.abedelwahab)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29246</span></td>
+            <td>L-00076</td>
+            <td>Dell</td>
+            <td>Dell vostor 3500</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Shahenda Tarek Abdelaziz Mohamed Elselawy (asta.t@asaptickets.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">27/May/2022, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-46440</span></td>
+            <td>L-00090-DRP</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G2 Laptop - IntelÂ® Coreâ„¢ i5-1135G7</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB</td>
+            <td>Mai Hanafy (m.hanafy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">02/Feb/2023, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29449</span></td>
+            <td>L-00099</td>
+            <td>Dell</td>
+            <td>Latitude 3520</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Amr Essam Saeed Mohamed (as4928)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f8717122;color:#f87171;border:1px solid #f8717155">Broken</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Sep/2022, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-30635</span></td>
+            <td>L-00100-EG1</td>
+            <td>Dell</td>
+            <td>latitude 3520/ Intel Core i5-1135G7/1TB / 8GRam</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>—</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Sep/2022, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-30665</span></td>
+            <td>L-00101</td>
+            <td>DRP</td>
+            <td>Lenovo-Thinkbook - Gray</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Help Desk (helpdesk@dyninno.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">02/Feb/2023, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31334</span></td>
+            <td>L-00101-EG2</td>
+            <td>Lenovo</td>
+            <td>Thinkbook 15 G2 ITL</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>lena.k@dyninno.com (lena.k@dyninno.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2023, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31317</span></td>
+            <td>L-00102-DRP</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G2 ITL Laptop - Type 20VE</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB</td>
+            <td>Sohaila Sweilam (s.sweilam)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2023, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31318</span></td>
+            <td>L-00103-EG2</td>
+            <td>Dell</td>
+            <td>Vostro 3500</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mohamed Ashraf Taha Fadaly (m.fadaly)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Nov/2022, Wed 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31319</span></td>
+            <td>L-00104</td>
+            <td>Lenovo</td>
+            <td>E15 G4</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Eman Ghanem (e.ghanem)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Mar/2023, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31337</span></td>
+            <td>L-00105-EG2</td>
+            <td>Dell</td>
+            <td>Vostor 3520</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mostafa Raouf Khalil Mohamed Higazey (mr2049)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">21/Dec/2024, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31335</span></td>
+            <td>L-00106</td>
+            <td>Lenovo</td>
+            <td>Thinkbook 15 G2 ITL</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mina Raouf Azmy Fahmy Gerges (m.raouf)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">20/Aug/2022, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31638</span></td>
+            <td>L-00107</td>
+            <td>Dell</td>
+            <td>Vostor 3515</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Sarah Tarek Mohamed Abdelrahman Mohamed Himaya (sh1848)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">18/Feb/2023, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31639</span></td>
+            <td>L-00108-EG2</td>
+            <td>Apple</td>
+            <td>Macbook Air M1</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Khaled Mohamed Ali Elmenshawy (k.menshawy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#4ade80;font-size:0.78rem">22/Sep/2027, Wed 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31652</span></td>
+            <td>L-00109</td>
+            <td>Dell</td>
+            <td>Vostro 3500</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Marihan Mohamed Ahmed Abdelrady (ma8979)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">29/Nov/2022, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31653</span></td>
+            <td>L-00110-EG1</td>
+            <td>Dell</td>
+            <td>Vostro 3500</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Ayman Fawzy Elaraby Mohamed (ragnor.m@asaptickets.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">18/Feb/2023, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31662</span></td>
+            <td>L-00111-EG1</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G4</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Amr Essam Saeed Mohamed (as4928)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">10/Mar/2025, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-40646</span></td>
+            <td>L-00112-EG1</td>
+            <td>Lenovo</td>
+            <td>Lenovo-11HD001FEX</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>16GB GB</td>
+            <td>Help Desk (helpdesk@dyninno.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f8717122;color:#f87171;border:1px solid #f8717155">Broken</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Jan/2022, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-41842</span></td>
+            <td>L-00113-EG1- DRP</td>
+            <td>Lenovo</td>
+            <td>E15 Gen 4 (type 21E6 21E7) Laptops (ThinkPad) - Type 21E6</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB</td>
+            <td>Mai Hanafy (m.hanafy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f8717122;color:#f87171;border:1px solid #f8717155">Broken</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-42555</span></td>
+            <td>L-00115-EG1</td>
+            <td>Lenovo</td>
+            <td>IdealPad Slim 3</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Rana Hosny Abdelmonem Ahmed Teleb (r.hosny)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">13/Mar/2026, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-27238</span></td>
+            <td>L-00150-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Pro, M1, 2020 14 inch Display</td>
+            <td style="font-size:0.75rem;color:#94a3b8">M1</td>
+            <td>8 GB GB</td>
+            <td>—</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#6b7280;font-size:0.78rem">—</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-52825</span></td>
+            <td>L-0065-EG2</td>
+            <td>Apple</td>
+            <td>MacBook Pro (M1)</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Alaa Ahmed Amin Shaalan (a.amin)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Mar/2023, Wed 00:00</span></td>
+        </tr></tbody></table></div>
+    </div></div>
+<div id="tab-eg1" class="tab-content">
+    <div class="section">
+        <h2>EG1 — 45 laptops</h2>
+        <div class="kpi-row"><div class="kpi-card">
+            <div class="kpi-val" style="color:#60a5fa">45</div>
+            <div class="kpi-label">Total</div>
+            <div class="kpi-pct">100%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#4ade80">34</div>
+            <div class="kpi-label">In Use</div>
+            <div class="kpi-pct">76%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#a78bfa">3</div>
+            <div class="kpi-label">Warehouse</div>
+            <div class="kpi-pct">7%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#f87171">5</div>
+            <div class="kpi-label">Broken</div>
+            <div class="kpi-pct">11%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#f43f5e">2</div>
+            <div class="kpi-label">Lost</div>
+            <div class="kpi-pct">4%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#6b7280">0</div>
+            <div class="kpi-label">Disposed</div>
+            <div class="kpi-pct">0%</div>
+        </div></div>
+        <div class="charts-row">
+            <div class="chart-block"><div class="chart-title">Device Status</div><div class="bar-row">
+            <div class="bar-label">In Use</div>
+            <div class="bar-wrap"><div class="bar" style="width:211px;background:#4ade80"></div></div>
+            <div class="bar-cnt">34 <span class="bar-pct">(75.6%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Broken</div>
+            <div class="bar-wrap"><div class="bar" style="width:31px;background:#f87171"></div></div>
+            <div class="bar-cnt">5 <span class="bar-pct">(11.1%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Warehouse</div>
+            <div class="bar-wrap"><div class="bar" style="width:18px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">3 <span class="bar-pct">(6.7%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Lost</div>
+            <div class="bar-wrap"><div class="bar" style="width:12px;background:#f43f5e"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(4.4%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">In Service</div>
+            <div class="bar-wrap"><div class="bar" style="width:6px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(2.2%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">Manufacturer</div><div class="bar-row">
+            <div class="bar-label">Lenovo</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">25 <span class="bar-pct">(55.6%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Dell</div>
+            <div class="bar-wrap"><div class="bar" style="width:100px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">9 <span class="bar-pct">(20.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Apple</div>
+            <div class="bar-wrap"><div class="bar" style="width:100px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">9 <span class="bar-pct">(20.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">MacBook Air</div>
+            <div class="bar-wrap"><div class="bar" style="width:11px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(2.2%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">DRP</div>
+            <div class="bar-wrap"><div class="bar" style="width:11px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(2.2%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">Warranty Health</div><div class="bar-row">
+            <div class="bar-label">Expired</div>
+            <div class="bar-wrap"><div class="bar" style="width:261px;background:#f43f5e"></div></div>
+            <div class="bar-cnt">42 <span class="bar-pct">(93.3%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Expiring soon (&lt;6mo)</div>
+            <div class="bar-wrap"><div class="bar" style="width:6px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(2.2%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Valid</div>
+            <div class="bar-wrap"><div class="bar" style="width:0px;background:#4ade80"></div></div>
+            <div class="bar-cnt">0 <span class="bar-pct">(0.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Unknown</div>
+            <div class="bar-wrap"><div class="bar" style="width:12px;background:#6b7280"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(4.4%)</span></div>
+        </div></div>
+        </div>
+        <div class="charts-row">
+            <div class="chart-block"><div class="chart-title">Models</div><div class="bar-row">
+            <div class="bar-label">E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">6 <span class="bar-pct">(28.6%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</div>
+            <div class="bar-wrap"><div class="bar" style="width:186px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">4 <span class="bar-pct">(19.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Lenovo E15 G4/intel Core i5-1235U-500 SSD / 8 GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:93px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(9.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">E15 Gen 4 (type 21E6 21E7) Laptops (ThinkPad) - Type 21E6</div>
+            <div class="bar-wrap"><div class="bar" style="width:93px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(9.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Vostro 3500</div>
+            <div class="bar-wrap"><div class="bar" style="width:93px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(9.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Lenovo E15 G4/intel Core i5-1235U-500 SSD / 16GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:46px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(4.8%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Latitude 3410 i5-10210U CPU @ 1.60GHz 2.11 G</div>
+            <div class="bar-wrap"><div class="bar" style="width:46px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(4.8%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Lenovo Idealpad slim 3</div>
+            <div class="bar-wrap"><div class="bar" style="width:46px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(4.8%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">ThinkPad-E15 G4 IntelÂ® Coreâ„¢ i5-1235U/8 GB /512SSD</div>
+            <div class="bar-wrap"><div class="bar" style="width:46px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(4.8%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">MacBook Air (M1)</div>
+            <div class="bar-wrap"><div class="bar" style="width:46px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(4.8%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">RAM (GB)</div><div class="bar-row">
+            <div class="bar-label">16GB GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:46px;background:#34d399"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(10.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">8 GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#34d399"></div></div>
+            <div class="bar-cnt">3 <span class="bar-pct">(30.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">8 GB GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#34d399"></div></div>
+            <div class="bar-cnt">6 <span class="bar-pct">(60.0%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">CPU</div><div class="bar-row">
+            <div class="bar-label">—</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">42 <span class="bar-pct">(93.3%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">check the comment</div>
+            <div class="bar-wrap"><div class="bar" style="width:6px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(2.2%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">1.6 GHZ Dual core intel i5</div>
+            <div class="bar-wrap"><div class="bar" style="width:6px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(2.2%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">M1</div>
+            <div class="bar-wrap"><div class="bar" style="width:6px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(2.2%)</span></div>
+        </div></div>
+        </div>
+        <h3 style="margin-top:2rem">Asset List <span style="color:#6b7280;font-size:0.85rem">(top 100 shown)</span></h3>
+        <div class="tbl-wrap"><table>
+    <thead><tr>
+        <th>Key</th><th>Inventory</th><th>Manufacturer</th><th>Model</th>
+        <th>CPU</th><th>RAM</th><th>Owner</th><th>Seat</th><th>Status</th><th>Warranty</th>
+    </tr></thead><tbody><tr>
+            <td><span class="key-badge">AMR-29266</span></td>
+            <td>L-00002</td>
+            <td>Lenovo</td>
+            <td>Lenovo E15 G4/intel Core i5-1235U-500 SSD / 16GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mariam Ahmed Eltaib (m.eltaib)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">05/Apr/2024, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29211</span></td>
+            <td>L-00003-EG</td>
+            <td>Dell</td>
+            <td>Latitude 3410 i5-10210U CPU @ 1.60GHz 2.11 G</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Eslam Osama Abdelnabi Ahmed (eo1255)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">23/Jul/2022, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-53555</span></td>
+            <td>L-000030-EG1</td>
+            <td>Lenovo</td>
+            <td>Lenovo Idealpad slim 3</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Kareem Rabie Sayed Rabie (kr1644)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#fbbf24;font-size:0.78rem">02/Oct/2026, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29273</span></td>
+            <td>L-00004</td>
+            <td>Lenovo</td>
+            <td>ThinkPad-E15 G4 IntelÂ® Coreâ„¢ i5-1235U/8 GB /512SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Ahmed Mohamed (a.el-tayeb)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f43f5e22;color:#f43f5e;border:1px solid #f43f5e55">Lost</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">05/Apr/2024, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29450</span></td>
+            <td>L-00005-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1)</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Enas Samir Elhady Mohamed Hassan (e.hady)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">09/Jan/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29208</span></td>
+            <td>L-00006</td>
+            <td>Dell</td>
+            <td>Vostro 3510/intel core i5 1135G7/1000 GB HD/ 8 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Safy Mahmoud Abdelmoamen Elsayed Gadallah (sa217)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Dec/2022, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29281</span></td>
+            <td>L-00007</td>
+            <td>Lenovo</td>
+            <td>Lenovo E15 G4/intel Core i5-1235U-500 SSD / 8 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mohamed Abdelhady Hafez Abdellatif (mh1943)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#6b7280;font-size:0.78rem">—</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29271</span></td>
+            <td>L-00011</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Khaled Mohamed Farouk Eltahan (k.eltahan)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">09/Jan/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29214</span></td>
+            <td>L-00012</td>
+            <td>Dell</td>
+            <td>Latitude 3520 Laptop - Intel® Core™ i5-1135G7 - 8GB - 1TB - Intel Iris Graphics - 15.6" HD - Grey</td>
+            <td style="font-size:0.75rem;color:#94a3b8">check the comment</td>
+            <td>— GB</td>
+            <td>—</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Sep/2022, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29267</span></td>
+            <td>L-00013</td>
+            <td>Lenovo</td>
+            <td>ThinkPad-E15 G4 IntelÂ®Coreâ„¢ i5-1235U/8GB/512G SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Saad Mabrouk (s.mabrouk)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">23/Jul/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-41843</span></td>
+            <td>L-00014- DRP</td>
+            <td>Lenovo</td>
+            <td>E15 Gen 4 (type 21E6 21E7) Laptops (ThinkPad) - Type 21E6</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB</td>
+            <td>Hana Momtaz (h.momtaz)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">23/Jul/2023, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29254</span></td>
+            <td>L-00015</td>
+            <td>Lenovo</td>
+            <td>Thinkpad e15/ IntelÂ® Coreâ„¢ i5-1135G7/8 GB/256GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Osama Essam Eldin Abdelfattah Mohamed Elmogy (o.essam)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">05/Apr/2023, Wed 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29283</span></td>
+            <td>L-00016</td>
+            <td>Lenovo</td>
+            <td>Thinkpad e15/ IntelÂ® Coreâ„¢ i5-1135G7/8 GB/256GBPCI</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Rana Ahmed Mokhtar Amin (r.mukhtar)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">23/Jul/2023, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29240</span></td>
+            <td>L-00019-EG1</td>
+            <td>MacBook Air</td>
+            <td>MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Caroline Nabil Adly Besada (ca120)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29280</span></td>
+            <td>L-00020-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Kareem Rabie Sayed Rabie (kr1644)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Mar/2024, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29233</span></td>
+            <td>L-00021-EG1</td>
+            <td>Apple</td>
+            <td>MacBook PRO</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Youssef Hamdy Mahmoud Ali Mansour (y.hamdy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Jul/2024, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29232</span></td>
+            <td>L-00022-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Nour Wagdy Ibrahim Mohamed Almeniawy (n.wagdy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">15/Sep/2023, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29242</span></td>
+            <td>L-00024</td>
+            <td>Dell</td>
+            <td>Latitude 3420 Intel Core i5-1135G7 / 1TB HDD / 8GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Tarek Shabaan Aly Farag (t.aly)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Nov/2023, Wed 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29275</span></td>
+            <td>L-00026</td>
+            <td>Apple</td>
+            <td>MacBook Air 2018</td>
+            <td style="font-size:0.75rem;color:#94a3b8">1.6 GHZ Dual core intel i5</td>
+            <td>8 GB GB</td>
+            <td>Hatem Ahmed (h.salama)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f43f5e22;color:#f43f5e;border:1px solid #f43f5e55">Lost</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">16/Jul/2020, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29265</span></td>
+            <td>L-00027</td>
+            <td>Lenovo</td>
+            <td>ThinkPad E15 G4/Intel Core i5-1235U/8GB/512 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Youssef Farag Zaki Nakhla (kepler.z)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f8717122;color:#f87171;border:1px solid #f8717155">Broken</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29277</span></td>
+            <td>L-00028</td>
+            <td>Lenovo</td>
+            <td>Lenovo E15 G4/intel Core i5-1235U-500 SSD / 8 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Youssef Farag Zaki Nakhla (kepler.z)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/May/2024, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29268</span></td>
+            <td>L-00030</td>
+            <td>Dell</td>
+            <td>latitude 3420/IntelÂ® Coreâ„¢ i5-1135G7 /8G/1TB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Saged Mohamed Shawky Ragheb (s.mohamed)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">03/Jun/2025, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29453</span></td>
+            <td>L-00031</td>
+            <td>Lenovo</td>
+            <td>ThinkPad</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB</td>
+            <td>Amira Mansour Abdulmenim Mansour Fares (nairobi.m@asaptickets.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">05/Jan/2022, Wed 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29227</span></td>
+            <td>L-00033-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Pro M1</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mayar Ahmed Ibrahim Emam Tantawy (ma228)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">18/Sep/2022, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29255</span></td>
+            <td>L-00035</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Orchidia Almashaly (o.elmashaly)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29261</span></td>
+            <td>L-00036</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB 512 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Nadine Hassanein (na143)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29269</span></td>
+            <td>L-00037</td>
+            <td>Lenovo</td>
+            <td>E15 G4/ IntelÂ® Coreâ„¢ i5-1235U / 8 GB /512 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mariam Hanna (m.morris)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29256</span></td>
+            <td>L-00038</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Alaa Abdullah (a.atef)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29257</span></td>
+            <td>L-00039</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mai Hanafy (m.hanafy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29262</span></td>
+            <td>L-00040</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Somaia Haggag (s.haggag)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29259</span></td>
+            <td>L-00041-DRP</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mariam Hassan (m.hassan)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">31/Jul/2023, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29272</span></td>
+            <td>L-00044</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G2 Laptop - IntelÂ® Coreâ„¢ i5-1135G7</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Caroline Nabil Adly Besada (ca120)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f8717122;color:#f87171;border:1px solid #f8717155">Broken</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2023, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-47312</span></td>
+            <td>L-00051</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1, 2018)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mai Hanafy (m.hanafy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#fbbf2422;color:#fbbf24;border:1px solid #fbbf2455">In Service</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">15/Apr/2019, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29263</span></td>
+            <td>L-00074</td>
+            <td>Lenovo</td>
+            <td>E15 G4 / IntelÂ® Coreâ„¢ i5-1235U / 8 GB DDR4/512 GB</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Yosra Abedelwahab (y.abedelwahab)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29449</span></td>
+            <td>L-00099</td>
+            <td>Dell</td>
+            <td>Latitude 3520</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Amr Essam Saeed Mohamed (as4928)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f8717122;color:#f87171;border:1px solid #f8717155">Broken</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Sep/2022, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-30665</span></td>
+            <td>L-00101</td>
+            <td>DRP</td>
+            <td>Lenovo-Thinkbook - Gray</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Help Desk (helpdesk@dyninno.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">02/Feb/2023, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31319</span></td>
+            <td>L-00104</td>
+            <td>Lenovo</td>
+            <td>E15 G4</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Eman Ghanem (e.ghanem)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Mar/2023, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31335</span></td>
+            <td>L-00106</td>
+            <td>Lenovo</td>
+            <td>Thinkbook 15 G2 ITL</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mina Raouf Azmy Fahmy Gerges (m.raouf)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">20/Aug/2022, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31638</span></td>
+            <td>L-00107</td>
+            <td>Dell</td>
+            <td>Vostor 3515</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Sarah Tarek Mohamed Abdelrahman Mohamed Himaya (sh1848)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">18/Feb/2023, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31652</span></td>
+            <td>L-00109</td>
+            <td>Dell</td>
+            <td>Vostro 3500</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Marihan Mohamed Ahmed Abdelrady (ma8979)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">29/Nov/2022, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31653</span></td>
+            <td>L-00110-EG1</td>
+            <td>Dell</td>
+            <td>Vostro 3500</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Ayman Fawzy Elaraby Mohamed (ragnor.m@asaptickets.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">18/Feb/2023, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31662</span></td>
+            <td>L-00111-EG1</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G4</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Amr Essam Saeed Mohamed (as4928)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">10/Mar/2025, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-40646</span></td>
+            <td>L-00112-EG1</td>
+            <td>Lenovo</td>
+            <td>Lenovo-11HD001FEX</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>16GB GB</td>
+            <td>Help Desk (helpdesk@dyninno.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f8717122;color:#f87171;border:1px solid #f8717155">Broken</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Jan/2022, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-41842</span></td>
+            <td>L-00113-EG1- DRP</td>
+            <td>Lenovo</td>
+            <td>E15 Gen 4 (type 21E6 21E7) Laptops (ThinkPad) - Type 21E6</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB</td>
+            <td>Mai Hanafy (m.hanafy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#f8717122;color:#f87171;border:1px solid #f8717155">Broken</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-27238</span></td>
+            <td>L-00150-EG1</td>
+            <td>Apple</td>
+            <td>MacBook Pro, M1, 2020 14 inch Display</td>
+            <td style="font-size:0.75rem;color:#94a3b8">M1</td>
+            <td>8 GB GB</td>
+            <td>—</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#6b7280;font-size:0.78rem">—</span></td>
+        </tr></tbody></table></div>
+    </div></div>
+<div id="tab-eg2" class="tab-content">
+    <div class="section">
+        <h2>EG2 — 21 laptops</h2>
+        <div class="kpi-row"><div class="kpi-card">
+            <div class="kpi-val" style="color:#60a5fa">21</div>
+            <div class="kpi-label">Total</div>
+            <div class="kpi-pct">100%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#4ade80">18</div>
+            <div class="kpi-label">In Use</div>
+            <div class="kpi-pct">86%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#a78bfa">3</div>
+            <div class="kpi-label">Warehouse</div>
+            <div class="kpi-pct">14%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#f87171">0</div>
+            <div class="kpi-label">Broken</div>
+            <div class="kpi-pct">0%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#f43f5e">0</div>
+            <div class="kpi-label">Lost</div>
+            <div class="kpi-pct">0%</div>
+        </div><div class="kpi-card">
+            <div class="kpi-val" style="color:#6b7280">0</div>
+            <div class="kpi-label">Disposed</div>
+            <div class="kpi-pct">0%</div>
+        </div></div>
+        <div class="charts-row">
+            <div class="chart-block"><div class="chart-title">Device Status</div><div class="bar-row">
+            <div class="bar-label">In Use</div>
+            <div class="bar-wrap"><div class="bar" style="width:240px;background:#4ade80"></div></div>
+            <div class="bar-cnt">18 <span class="bar-pct">(85.7%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Warehouse</div>
+            <div class="bar-wrap"><div class="bar" style="width:40px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">3 <span class="bar-pct">(14.3%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">Manufacturer</div><div class="bar-row">
+            <div class="bar-label">Lenovo</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">9 <span class="bar-pct">(42.9%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Dell</div>
+            <div class="bar-wrap"><div class="bar" style="width:248px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">8 <span class="bar-pct">(38.1%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Apple</div>
+            <div class="bar-wrap"><div class="bar" style="width:124px;background:#60a5fa"></div></div>
+            <div class="bar-cnt">4 <span class="bar-pct">(19.0%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">Warranty Health</div><div class="bar-row">
+            <div class="bar-label">Expired</div>
+            <div class="bar-wrap"><div class="bar" style="width:253px;background:#f43f5e"></div></div>
+            <div class="bar-cnt">19 <span class="bar-pct">(90.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Expiring soon (&lt;6mo)</div>
+            <div class="bar-wrap"><div class="bar" style="width:0px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">0 <span class="bar-pct">(0.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Valid</div>
+            <div class="bar-wrap"><div class="bar" style="width:26px;background:#4ade80"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(9.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Unknown</div>
+            <div class="bar-wrap"><div class="bar" style="width:0px;background:#6b7280"></div></div>
+            <div class="bar-cnt">0 <span class="bar-pct">(0.0%)</span></div>
+        </div></div>
+        </div>
+        <div class="charts-row">
+            <div class="chart-block"><div class="chart-title">Models</div><div class="bar-row">
+            <div class="bar-label">latitude 3520/ Intel Core i5-1135G7/1TB / 8GRam</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(16.7%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">ThinkBook 15 G2 Laptop - IntelÂ® Coreâ„¢ i5-1135G7</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">2 <span class="bar-pct">(16.7%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">MacBook Air 13” M1</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(8.3%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Latitude 3520 Intel(R) Core(TM) i5-1135G7/ 256 SSD</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(8.3%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Dell latitude 3420/IntelÂ® Core i5-1135G7/ 1TB / 8G</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(8.3%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">ThinkPad i5 G2/IntelÂ® Coreâ„¢ i5-1135G7/8 GB/500GB SSD</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(8.3%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(8.3%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Thinkpad e15/ IntelÂ® Coreâ„¢ i5-1135G7/8 GB/256GBPCI</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(8.3%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">ThinkBook 15 G2</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(8.3%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">Latitude 3520 Intel(R) Core(TM) i5-1135G7 / 1TB /</div>
+            <div class="bar-wrap"><div class="bar" style="width:140px;background:#a78bfa"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(8.3%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">RAM (GB)</div><div class="bar-row">
+            <div class="bar-label">16 GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:93px;background:#34d399"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(20.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">8 GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#34d399"></div></div>
+            <div class="bar-cnt">3 <span class="bar-pct">(60.0%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">8 GB GB</div>
+            <div class="bar-wrap"><div class="bar" style="width:93px;background:#34d399"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(20.0%)</span></div>
+        </div></div>
+            <div class="chart-block"><div class="chart-title">CPU</div><div class="bar-row">
+            <div class="bar-label">—</div>
+            <div class="bar-wrap"><div class="bar" style="width:280px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">19 <span class="bar-pct">(90.5%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">M1 8C CPU, 7C GPU</div>
+            <div class="bar-wrap"><div class="bar" style="width:14px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(4.8%)</span></div>
+        </div><div class="bar-row">
+            <div class="bar-label">i5-13420H-512 GB SSD</div>
+            <div class="bar-wrap"><div class="bar" style="width:14px;background:#fbbf24"></div></div>
+            <div class="bar-cnt">1 <span class="bar-pct">(4.8%)</span></div>
+        </div></div>
+        </div>
+        <h3 style="margin-top:2rem">Asset List <span style="color:#6b7280;font-size:0.85rem">(top 100 shown)</span></h3>
+        <div class="tbl-wrap"><table>
+    <thead><tr>
+        <th>Key</th><th>Inventory</th><th>Manufacturer</th><th>Model</th>
+        <th>CPU</th><th>RAM</th><th>Owner</th><th>Seat</th><th>Status</th><th>Warranty</th>
+    </tr></thead><tbody><tr>
+            <td><span class="key-badge">AMR-9857</span></td>
+            <td>C-02875DY</td>
+            <td>Apple</td>
+            <td>MacBook Air 13” M1</td>
+            <td style="font-size:0.75rem;color:#94a3b8">M1 8C CPU, 7C GPU</td>
+            <td>8 GB</td>
+            <td>Help Desk (helpdesk@dyninno.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">22/Feb/2024, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29215</span></td>
+            <td>L-00001</td>
+            <td>Dell</td>
+            <td>Latitude 3520 Intel(R) Core(TM) i5-1135G7/ 256 SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mohamed Mokhtar Amer Amer (mohamed.mokhtar)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Sep/2022, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29282</span></td>
+            <td>L-00008</td>
+            <td>Dell</td>
+            <td>Dell latitude 3420/IntelÂ® Core i5-1135G7/ 1TB / 8G</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Dina Atef Mahmoud Awad Ahmed (da149)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">03/Jun/2025, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29241</span></td>
+            <td>L-00009-EG1</td>
+            <td>Lenovo</td>
+            <td>ThinkPad i5 G2/IntelÂ® Coreâ„¢ i5-1135G7/8 GB/500GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Nawara Abdullah Farag Abdelgelil (nf292)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Sep/2022, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29270</span></td>
+            <td>L-00017-EG2</td>
+            <td>Apple</td>
+            <td>MacBook Air (M1, 2020)/8-core CPU/ 8GB-256 GB SSD</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Nahed Ali Gamal El-faransawy (n.elfaransawy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Aug/2022, Mon 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29249</span></td>
+            <td>L-00018</td>
+            <td>Lenovo</td>
+            <td>Thinkpad e15/ IntelÂ® Coreâ„¢ i5-1135G7/8 GB/256GBPCI</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Shady Emad Aiad Khila (s.emad)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">05/Apr/2024, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29452</span></td>
+            <td>L-00029</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G2</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Ahmed Mohsen Wahba Hassan Mohamed (socrates.m@asaptickets.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">02/Feb/2023, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29225</span></td>
+            <td>L-00032-EG1</td>
+            <td>Dell</td>
+            <td>latitude 3520/ Intel Core i5-1135G7/1TB / 8GRam</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Amr Taha Younes Taha (a.taha)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">09/Jan/2022, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29226</span></td>
+            <td>L-00034</td>
+            <td>Dell</td>
+            <td>Latitude 3520 Intel(R) Core(TM) i5-1135G7 / 1TB /</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Help Desk (helpdesk@dyninno.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Sep/2022, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29247</span></td>
+            <td>L-00042-DRP</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G2 Laptop - IntelÂ® Coreâ„¢ i5-1135G7</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Aya Abdelaziz (a.abdelaziz)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2024, Tue 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-44021</span></td>
+            <td>L-00043</td>
+            <td>Lenovo</td>
+            <td>IdeaPad Slim 3 15IRH8 - Type 83EM</td>
+            <td style="font-size:0.75rem;color:#94a3b8">i5-13420H-512 GB SSD</td>
+            <td>16 GB</td>
+            <td>Abdelrahman Mohamed Farouk AbdelHady (a.farouk)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#4ade80;font-size:0.78rem">28/Mar/2027, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-29246</span></td>
+            <td>L-00076</td>
+            <td>Dell</td>
+            <td>Dell vostor 3500</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Shahenda Tarek Abdelaziz Mohamed Elselawy (asta.t@asaptickets.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">27/May/2022, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-46440</span></td>
+            <td>L-00090-DRP</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G2 Laptop - IntelÂ® Coreâ„¢ i5-1135G7</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB</td>
+            <td>Mai Hanafy (m.hanafy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">02/Feb/2023, Thu 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-30635</span></td>
+            <td>L-00100-EG1</td>
+            <td>Dell</td>
+            <td>latitude 3520/ Intel Core i5-1135G7/1TB / 8GRam</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>—</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55">Warehouse</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Sep/2022, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31334</span></td>
+            <td>L-00101-EG2</td>
+            <td>Lenovo</td>
+            <td>Thinkbook 15 G2 ITL</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>lena.k@dyninno.com (lena.k@dyninno.com)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2023, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31317</span></td>
+            <td>L-00102-DRP</td>
+            <td>Lenovo</td>
+            <td>ThinkBook 15 G2 ITL Laptop - Type 20VE</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB</td>
+            <td>Sohaila Sweilam (s.sweilam)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Apr/2023, Sun 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31318</span></td>
+            <td>L-00103-EG2</td>
+            <td>Dell</td>
+            <td>Vostro 3500</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mohamed Ashraf Taha Fadaly (m.fadaly)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">30/Nov/2022, Wed 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31337</span></td>
+            <td>L-00105-EG2</td>
+            <td>Dell</td>
+            <td>Vostor 3520</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Mostafa Raouf Khalil Mohamed Higazey (mr2049)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">21/Dec/2024, Sat 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-31639</span></td>
+            <td>L-00108-EG2</td>
+            <td>Apple</td>
+            <td>Macbook Air M1</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Khaled Mohamed Ali Elmenshawy (k.menshawy)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#4ade80;font-size:0.78rem">22/Sep/2027, Wed 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-42555</span></td>
+            <td>L-00115-EG1</td>
+            <td>Lenovo</td>
+            <td>IdealPad Slim 3</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>— GB</td>
+            <td>Rana Hosny Abdelmonem Ahmed Teleb (r.hosny)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">13/Mar/2026, Fri 00:00</span></td>
+        </tr><tr>
+            <td><span class="key-badge">AMR-52825</span></td>
+            <td>L-0065-EG2</td>
+            <td>Apple</td>
+            <td>MacBook Pro (M1)</td>
+            <td style="font-size:0.75rem;color:#94a3b8">—</td>
+            <td>8 GB GB</td>
+            <td>Alaa Ahmed Amin Shaalan (a.amin)</td>
+            <td>—</td>
+            <td><span class="status-badge" style="background:#4ade8022;color:#4ade80;border:1px solid #4ade8055">In Use</span></td>
+            <td><span style="color:#f43f5e;font-size:0.78rem">01/Mar/2023, Wed 00:00</span></td>
+        </tr></tbody></table></div>
+    </div></div>
+<script>
+function showTab(id,el){
+  document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>
